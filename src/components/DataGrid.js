@@ -1,56 +1,51 @@
-import axios from "axios"
-import { useEffect, useState } from "react";
-function ShowDataInGrid() {
-    const [Data, setData] = useState([])
 
-    let url = "https://gorest.co.in/public/v1/todos"
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+import ProductCard from "./Grid";
+import '../App.css'
+
+
+function ShowDataInGrid() {
+
+    let [data, setData] = useState([]);
+
+
+    async function getBooksData() {
+         await axios.get("https://gorest.co.in/public/v1/todos")
+            .then((response) => {
+                setData(response.data.data)
+                
+                })
+                .catch((error) => {
+                  console.log("error", error.response.data.message)
+                })
+       
+    }
 
     useEffect(() => {
-        FetchData()
+        
+        getBooksData();
 
     }, [])
 
-    let fetch;
-    let allData=[];
-    async function FetchData() {
-        await axios.get(url)
-            .then((response) => {
-                setData(response.data.data)
-                allData = response.data.data
-                console.log(response.data.data,Data,allData)
-
-            })
-            .catch(() => {
-                console.log("error")
-
-            })
-            
-            // setData(fetch.data.data);
-            // allData = fetch.data.data
-            //      console.log(allData,Data)
-
-    }
-
     return (
-   
+        <div className="video_div" style={{background:"black"}}>
+            <h2 style={{color:"white"}}> All data in Grid  </h2>
+            <div className="product-wrapper">
+                {data.map((item, index) => (
+                    <ProductCard
+                        key={item._id}
+                        id={item.id}
+                        userId={item.user_id}
+                        title={`${item.title}`}
+                        due_on={item.due_on}
+                        status={item.status}
 
-    <div>
-     <h1>grid data</h1>
-      {allData.length > 0 && (
-        <div>
-       
-          {allData.map(user => (
-            <p key={user.id}>{user.name}</p>
-            
-          ))}
+                    />
+                ))}
+            </div>
+
         </div>
-      )}
-    </div>
-
-    // {/* <div>
-    //     <h1>grid data</h1>
-    // </div> */}
-       
     )
 }
 export default ShowDataInGrid;
