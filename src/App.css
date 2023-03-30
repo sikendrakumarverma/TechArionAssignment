@@ -36,3 +36,22 @@
     transform: rotate(360deg);
   }
 }
+
+.image{
+  height: 700px;
+  width: 100%;
+}
+/* ------------------------------------------------- */
+
+.counter{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.counter button{
+  height: 25px;
+  width: 50px;
+}
+.grid{
+  background: #282c34;
+}
